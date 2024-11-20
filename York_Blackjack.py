@@ -199,7 +199,7 @@ def dealer():
     # part that changes scores the games
 
     if num == 1:
-        if dealer_count - 11 <= 21:
+        if dealer_count + 11 <= 21:
             dealer_count += 11
         else:
             dealer_count += num
@@ -426,25 +426,40 @@ def no_touched(x,y):
 def start():
     global true
     while true:
-        if player_count == 21:
-            hit.hideturtle()
-            stand.hideturtle()
-            t.goto(-100, 0)
-            t.write('You Won', font=('Arial', 50, 'normal'))
-            dealer_s.goto(-10, 110)
-            dealer_s.write(player_count, font=('Arial', 20, 'normal'))
-            dealer_s.clear()
-            dealer_s.goto(-10, -210)
-            dealer_s.write(dealer_count, font=('Arial', 20, 'normal'))
-            card_t.clear()
-            card_t.write(card, font=('Arial', 15, 'normal'))
-            true = False
-            restart()
         if dealer_turns < 2:
             dealer()
         if player_turns < 2:
             player()
-        if player_turns == 2:
+            if player_count > 21:
+                t.goto(-130, 0)
+                t.write('You Lost', font=('Arial', 50, 'normal'))
+                dealer_s.goto(-10, 110)
+                dealer_s.write(player_count, font=('Arial', 20, 'normal'))
+                dealer_s.clear()
+                dealer_s.goto(-10, -210)
+                dealer_s.write(dealer_count, font=('Arial', 20, 'normal'))
+                card_t.clear()
+                card_t.write(card, font=('Arial', 15, 'normal'))
+                true = False
+                restart()
+            elif dealer_count == 21 and player_count == 21:
+                t.goto(-100, 0)
+                t.write('Tie', font=('Arial', 50, 'normal'))
+                true = False
+                restart()
+            elif player_count == 21:
+                t.goto(-120, 0)
+                t.write('You Won', font=('Arial', 50, 'normal'))
+                dealer_s.goto(-10, 110)
+                dealer_s.write(player_count, font=('Arial', 20, 'normal'))
+                dealer_s.clear()
+                dealer_s.goto(-10, -210)
+                dealer_s.write(dealer_count, font=('Arial', 20, 'normal'))
+                card_t.clear()
+                card_t.write(card, font=('Arial', 15, 'normal'))
+                true = False
+                restart()
+        if player_turns == 2 and true != False:
             hit.showturtle()
             stand.showturtle()
         hit.onclick(hit_touch)
